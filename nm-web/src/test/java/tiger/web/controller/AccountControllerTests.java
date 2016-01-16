@@ -23,7 +23,6 @@ public class AccountControllerTests extends ControllerBaseTest{
         MvcResult mvcResult = mockMvc.perform(post("/login")).andExpect(status().isOk()).andReturn();
         if(mvcResult != null){
             String result = mvcResult.getResponse().getContentAsString();
-            Assert.assertEquals(result, "test success1");
         }
     }
 
