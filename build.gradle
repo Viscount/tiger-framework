@@ -24,6 +24,13 @@ configure(allprojects) {
     apply plugin: 'idea'
 }
 
+apply plugin: 'war'
+
+war {
+    baseName = 'nevermore'
+    version = '0.1.0'
+}
+
 configure(javaProjects) {
     apply plugin: 'java'
     compileJava.options.encoding = 'UTF-8'
