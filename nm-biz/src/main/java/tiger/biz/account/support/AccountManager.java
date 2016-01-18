@@ -7,6 +7,7 @@ package tiger.biz.account.support;
 import tiger.core.base.BaseResult;
 import tiger.core.domain.AccountDomain;
 import tiger.core.domain.AccountLoginLogDomain;
+import tiger.core.domain.AccountSignUpDomain;
 
 /**
  * @author yiliang.guo
@@ -48,5 +49,12 @@ public interface AccountManager {
      * @return
      */
     BaseResult<Boolean> attachAccountHeader(Long accountId, Long attachId);
+
+    /**
+     * 新增加一个用户
+     * @param account
+     * @return
+     */
+    AccountDomain signup(AccountSignUpDomain account);
 
 }

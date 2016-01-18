@@ -25,6 +25,7 @@ import tiger.core.service.LoginLogService;
 import tiger.core.service.SmsService;
 import tiger.web.constants.APIConstants;
 import tiger.web.controller.BaseController;
+import tiger.web.form.account.AccountAddForm;
 import tiger.web.form.account.AccountUpdateForm;
 import tiger.web.form.account.SimpleResetPasswordForm;
 
@@ -192,6 +193,21 @@ public class AccountController extends BaseController {
         AccountResetPwdDomain resetPwdDomain = form.convert2Domain();
         resetPwdDomain.setAccountId(this.currentAccount().getId());
         return new BaseResult<>(accountService.resetPasswordByOldPassword(resetPwdDomain));
+    }
+
+    /**
+     * 用户注册接口
+     *
+     * @return the string
+     */
+    @RequestMapping(value = "", method = RequestMethod.POST, params = "operation=register")
+    @ResponseBody
+    public BaseResult<?> signUp(@Valid @RequestBody AccountAddForm form,
+                                BindingResult bindingResult) {
+        AccountDomain accountDomain = accountManager.signup(form.convert2Domain());
+        if (accountDomain.getId() > 0){
+            return new BaseResult<>(accountDomain);
+        } else return  new BaseResult<>(false);
     }
 
     /**

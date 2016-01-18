@@ -18,7 +18,9 @@ import tiger.common.util.StringUtil;
 import tiger.core.base.BaseResult;
 import tiger.core.domain.AccountDomain;
 import tiger.core.domain.AccountLoginLogDomain;
+import tiger.core.domain.AccountSignUpDomain;
 import tiger.core.domain.AttachDomain;
+import tiger.core.domain.convert.AccountConvert;
 import tiger.core.enums.ErrorCodeEnum;
 import tiger.core.exception.AppException;
 import tiger.core.service.AccountService;
@@ -61,8 +63,7 @@ public class AccountManagerImpl implements AccountManager{
         if (!StringUtil.equals(account, accountDomain.getAccount())) {
             throw new AppException(ErrorCodeEnum.BIZ_FAIL, "用户名或密码错误！");
         }
-        if (StringUtil.equals(password, PasswordEncryptUtil.getLoginPassword(accountDomain.getPassword(),
-                account, PasswordEncryptUtil.SBIN))) {
+        if (StringUtil.equals(password, accountDomain.getPassword())) {
             // 设置头像信息
             AttachDomain attachDomain = accountDomain.getIcon();
             if (null != attachDomain) {
@@ -134,5 +135,11 @@ public class AccountManagerImpl implements AccountManager{
         } else {
             return new BaseResult<>(ErrorCodeEnum.BIZ_FAIL, false);
         }
+    }
+
+    @Override
+    public AccountDomain signup(AccountSignUpDomain account) {
+        AccountDomain accountDomain = AccountConvert.convertAccountSignUpDomainToAccountDomain(account);
+       return accountService.addAccount(accountDomain);
     }
 }
